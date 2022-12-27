@@ -30,9 +30,14 @@ const options = {
 function timerStart() {
 	buttonTimerStart.setAttribute("disabled", true);
 	inputTimer.setAttribute("disabled", true);
-	setInterval(() => {
+	const interval = setInterval(() => {
 		const subtraction = chosenDate.getTime() - Date.now();
 		const timeConverter = convertMs(subtraction)
+
+		if (subtraction <= 0) {
+			clearInterval(interval)
+			return
+		}
 
 		days.textContent = timeConverter.days;
 		hours.textContent = timeConverter.hours;
@@ -48,9 +53,9 @@ function addLeadingZero(value) {
 function convertMs(ms) {
   // Number of milliseconds per unit of time
     const second = 1000;
-  const minute = second * 60;
-  const hour = minute * 60;
-  const day = hour * 24;
+	const minute = second * 60;
+	const hour = minute * 60;
+	const day = hour * 24;
 
   // Remaining days
     const days = addLeadingZero(Math.floor(ms / day));
